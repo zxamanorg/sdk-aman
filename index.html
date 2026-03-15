@@ -9,146 +9,75 @@
 
 body{
 margin:0;
-font-family:monospace;
+font-family:Arial;
 background:black;
 color:#0ff;
-overflow:hidden;
-}
-
-/* Galaxy background */
-
-#particles-js{
-position:fixed;
-width:100%;
-height:100%;
-z-index:-1;
-}
-
-/* Terminal intro */
-
-#terminal{
-position:absolute;
-top:40%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:22px;
-white-space:pre;
-}
-
-.hidden{
-display:none;
-}
-
-/* Main dashboard */
-
-#main{
-display:none;
 text-align:center;
-padding-top:120px;
 }
 
-.logo{
-font-size:80px;
-color:#0ff;
-text-shadow:0 0 20px #0ff,0 0 40px #0ff;
-animation:glow 2s infinite alternate;
-}
-
-@keyframes glow{
-from{ text-shadow:0 0 20px #0ff }
-to{ text-shadow:0 0 40px #0ff }
+h1{
+font-size:70px;
+margin-top:60px;
+text-shadow:0 0 20px cyan;
 }
 
 .card{
+width:300px;
 margin:20px auto;
-width:250px;
 padding:20px;
-border:1px solid #0ff;
+border:1px solid cyan;
 border-radius:10px;
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.7);
 }
 
 button{
-margin-top:20px;
 padding:10px 20px;
-background:#0ff;
+background:cyan;
 border:none;
 cursor:pointer;
 font-weight:bold;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div id="particles-js"></div>
+<h1>AMAN</h1>
 
-<div id="terminal"></div>
-
-<div id="main">
-
-<h1 class="logo">AMAN</h1>
-
-<div class="card">CEO = AURANODE</div>
-<div class="card">FOUNDER = CUBIX CLOUD</div>
-
-<button onclick="openChat()">🧠 AI CHAT</button>
-
+<div class="card">
+CEO = AURANODE
 </div>
 
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<div class="card">
+FOUNDER = CUBIX CLOUD
+</div>
+
+<div class="card">
+🌐 Visitors: <span id="visits">0</span>
+</div>
+
+<div class="card">
+📊 Gaming Server Status
+<br><br>
+Status: <span style="color:lime">ONLINE</span>
+</div>
+
+<div class="card">
+<button onclick="openChat()">🧠 AI CHATBOT</button>
+</div>
 
 <script>
 
-/* Galaxy particles */
+/* simple visitor counter */
 
-particlesJS("particles-js",{
-particles:{
-number:{value:100},
-size:{value:3},
-move:{speed:1},
-line_linked:{enable:true}
-}
-});
-
-/* Terminal animation */
-
-const text=[
-"Booting system...",
-"Access granted...",
-"Loading profile...",
-"Welcome Aman"
-];
-
-let i=0;
-let j=0;
-let current="";
-let speed=50;
-
-function type(){
-if(i<text.length){
-if(j<text[i].length){
-current+=text[i].charAt(j);
-document.getElementById("terminal").innerText=current;
-j++;
-setTimeout(type,speed);
-}
-else{
-current+="\n";
-i++;
-j=0;
-setTimeout(type,500);
-}
-}
-else{
-document.getElementById("terminal").classList.add("hidden");
-document.getElementById("main").style.display="block";
-}
+if(localStorage.visits){
+localStorage.visits = Number(localStorage.visits)+1;
+}else{
+localStorage.visits = 1;
 }
 
-type();
+document.getElementById("visits").innerText = localStorage.visits;
 
 /* AI button */
 
