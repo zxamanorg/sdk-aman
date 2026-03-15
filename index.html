@@ -1,36 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aman</title>
+
 <style>
-body{
+
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:#0f2027;
+background:#000;
+overflow:hidden;
 color:white;
-font-family:Arial;
 text-align:center;
 }
 
+/* Animated background */
+
+body::before{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+background:linear-gradient(45deg,#ff00cc,#3333ff,#00ffee,#ff00cc);
+animation:bgmove 10s linear infinite;
+z-index:-1;
+filter:blur(120px);
+}
+
+@keyframes bgmove{
+0%{transform:translate(0,0)}
+50%{transform:translate(-25%,-25%)}
+100%{transform:translate(0,0)}
+}
+
+/* Container */
+
+.container{
+background:rgba(0,0,0,0.6);
+padding:60px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+box-shadow:0 0 40px rgba(0,0,0,0.8);
+}
+
+/* Glowing text */
+
 h1{
-font-size:70px;
+font-size:90px;
+letter-spacing:8px;
+text-shadow:
+0 0 10px #fff,
+0 0 20px #00ffff,
+0 0 40px #00ffff,
+0 0 80px #00ffff;
 }
 
 p{
-font-size:20px;
+font-size:22px;
+margin-top:15px;
+opacity:0.9;
 }
+
 </style>
 </head>
 
 <body>
 
-<div>
+<div class="container">
+
 <h1>AMAN</h1>
+
 <p>CEO = AURANODE</p>
 <p>FOUNDER = CUBIX CLOUD</p>
+
 </div>
 
 </body>
