@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -11,115 +12,49 @@
 body{
 margin:0;
 background:black;
+color:#00ff9f;
 font-family:monospace;
-color:#00ffff;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
 overflow:hidden;
-text-align:center;
 }
 
-#particles-js{
-position:fixed;
-width:100%;
-height:100%;
-z-index:-1;
-}
-
-/* ping */
-
-.ping{
-position:absolute;
-top:10px;
-left:10px;
-font-size:14px;
-color:white;
-}
-
-/* box */
-
-.box{
-background:rgba(0,0,0,0.7);
-padding:40px;
-border:1px solid cyan;
-box-shadow:0 0 20px cyan;
-}
-
-.loading{
-font-size:28px;
-margin-bottom:20px;
+#terminal{
+white-space:pre;
+font-size:20px;
 }
 
 button{
+
+margin-top:20px;
 padding:12px 25px;
-font-size:18px;
-background:cyan;
+
+background:#00ff9f;
+
 border:none;
+
+font-size:18px;
+
 cursor:pointer;
+
 }
 
-</style>
-</head>
+.warp{
 
-<body>
+position:fixed;
 
-<div class="ping">
-Ping: <span id="ping">...</span> ms
-</div>
+width:100%;
 
-<div id="particles-js"></div>
+height:100%;
 
-<div class="box">
+background:black;
 
-<div class="loading">
-SYSTEM REBOOT LOADING...
-</div>
+animation:warp 1s forwards;
 
-<br>
-
-<button onclick="go()">CLICK HERE TO GO!</button>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
-<script>
-
-/* particles */
-
-particlesJS("particles-js",{
-particles:{
-number:{value:80},
-size:{value:3},
-move:{speed:2},
-line_linked:{enable:true}
-}
-});
-
-/* fake ping test */
-
-function updatePing(){
-let start=Date.now();
-
-fetch(window.location.href,{method:"HEAD"})
-.then(()=>{
-let ping=Date.now()-start;
-document.getElementById("ping").innerText=ping;
-});
 }
 
-setInterval(updatePing,2000);
-updatePing();
+@keyframes warp{
 
-/* go page */
-
-function go(){
-window.location.href="main.html";
-}
-
-</script>
-
-</body>
-</html>
+0
