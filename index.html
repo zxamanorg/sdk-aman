@@ -6,9 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AMAN SYSTEM</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+<title>AMAN INFO </title>
 
 <style>
 
@@ -16,7 +14,7 @@ body{
 margin:0;
 background:black;
 color:#00ffff;
-font-family:'Orbitron',sans-serif;
+font-family:monospace;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -25,37 +23,32 @@ text-align:center;
 overflow:hidden;
 }
 
-/* particles */
-
-#particles-js{
-position:fixed;
-width:100%;
-height:100%;
-z-index:-1;
-}
-
 /* ping */
 
 #ping{
 position:absolute;
 top:10px;
 left:10px;
+font-size:18px;
 color:white;
-font-size:14px;
 }
 
 /* terminal */
 
 #terminal{
-font-family:monospace;
+position:absolute;
+top:30%;
 white-space:pre;
-font-size:18px;
+font-size:20px;
 }
 
 /* button */
 
+#btn{
+margin-top:120px;
+}
+
 button{
-margin-top:20px;
 padding:14px 30px;
 font-size:18px;
 background:cyan;
@@ -63,19 +56,19 @@ border:none;
 cursor:pointer;
 }
 
-/* warp effect */
+/* slide */
 
-.warp{
+.slide{
 position:fixed;
 width:100%;
 height:100%;
 background:black;
-animation:warp 1s forwards;
+animation:slide 1s forwards;
 }
 
-@keyframes warp{
-0%{transform:scale(1)}
-100%{transform:scale(20)}
+@keyframes slide{
+0%{transform:translateX(0)}
+100%{transform:translateX(-100%)}
 }
 
 </style>
@@ -84,8 +77,6 @@ animation:warp 1s forwards;
 
 <body>
 
-<div id="particles-js"></div>
-
 <div id="ping">
 Ping: <span id="pingvalue">...</span> ms
 </div>
@@ -93,33 +84,18 @@ Ping: <span id="pingvalue">...</span> ms
 <div id="terminal"></div>
 
 <div id="btn" style="display:none">
-<button onclick="warp()">CLICK HERE TO GO!</button>
+<button onclick="go()">CLICK HERE TO GO!</button>
 </div>
-
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
 <script>
 
-/* particles */
-
-particlesJS("particles-js",{
-particles:{
-number:{value:100},
-size:{value:3},
-move:{speed:1},
-line_linked:{enable:true}
-}
-});
-
-/* hacker terminal */
+/* hacker intro */
 
 const text=[
 "Booting Aman System...",
-"Connecting Secure Network...",
+"Connecting Network...",
 "Decrypting Servers...",
-"Access Granted.",
-"",
-"Welcome Developer AMAN"
+"Access Granted!."
 ];
 
 let i=0;
@@ -159,11 +135,11 @@ document.getElementById("btn").style.display="block";
 
 type();
 
-/* warp transition */
+/* slide */
 
-function warp(){
+function go(){
 
-document.body.innerHTML+="<div class='warp'></div>";
+document.body.innerHTML+="<div class='slide'></div>";
 
 setTimeout(()=>{
 
