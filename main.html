@@ -1,18 +1,35 @@
-<!-- RIGHT SIDE ANALYTICS PANEL -->
+<!DOCTYPE html>
+<html>
 
-<div id="analytics">
+<head>
 
-<div>🌍 Country: <span id="country">Loading...</span></div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div>📍 City: <span id="city">Loading...</span></div>
+<title>AMAN</title>
 
-<div>📡 IP: <span id="ip">Loading...</span></div>
-
-<div>📊 Visitors: <span id="visitors">Loading...</span></div>
-
-</div>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
+
+body{
+margin:0;
+background:black;
+color:white;
+font-family:'Share Tech Mono', monospace;
+overflow:hidden;
+}
+
+/* ping */
+
+#ping{
+position:absolute;
+top:10px;
+left:10px;
+font-size:18px;
+}
+
+/* analytics panel */
 
 #analytics{
 position:absolute;
@@ -26,38 +43,166 @@ border-top:2px solid cyan;
 line-height:22px;
 }
 
+/* center layout */
+
+#main{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+/* welcome */
+
+.welcome{
+font-size:70px;
+color:cyan;
+text-shadow:
+0 0 20px cyan,
+0 0 40px cyan;
+}
+
+/* aman logo */
+
+.logo{
+font-size:95px;
+margin-top:40px;
+
+color:white;
+
+text-shadow:
+0 0 20px white,
+0 0 40px cyan;
+
+animation:spin 8s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotateY(0deg)}
+100%{transform:rotateY(360deg)}
+}
+
+/* info */
+
+.info{
+font-size:24px;
+margin-top:10px;
+}
+
 </style>
+
+</head>
+
+<body>
+
+<!-- ping -->
+
+<div id="ping">
+Ping: <span id="pingvalue">...</span> ms
+</div>
+
+<!-- analytics -->
+
+<div id="analytics">
+
+<div>🌍 Country: <span id="country">Loading...</span></div>
+
+<div>📍 City: <span id="city">Loading...</span></div>
+
+<div>📡 IP: <span id="ip">Loading...</span></div>
+
+<div>📊 Visits: <span id="visits">Loading...</span></div>
+
+</div>
+
+<!-- main content -->
+
+<div id="main">
+
+<div class="welcome">
+WELCOME VIEWER
+</div>
+
+<div class="logo">
+AMAN
+</div>
+
+<div class="info">
+Age = 15 (soon)
+</div>
+
+<div class="info">
+Class = IX
+</div>
+
+<div class="info">
+Complete = C#, C++, JAVA
+</div>
+
+<div class="info">
+Pending = PYTHON
+</div>
+
+</div>
 
 <script>
 
-/* IP + location */
+/* ping */
+
+function ping(){
+
+let start=Date.now();
+
+fetch(window.location.href,{method:"HEAD"}).then(()=>{
+
+let p=Date.now()-start;
+
+document.getElementById("pingvalue").innerText=p;
+
+});
+
+}
+
+setInterval(ping,2000);
+
+ping();
+
+/* location */
 
 fetch("https://ipapi.co/json/")
 .then(res=>res.json())
 .then(data=>{
 
 document.getElementById("country").innerText=data.country_name;
+
 document.getElementById("city").innerText=data.city;
+
 document.getElementById("ip").innerText=data.ip;
 
 });
 
-/* simple visitor counter */
+/* visitor counter */
 
-let count=localStorage.getItem("visitcount");
+let visits=localStorage.getItem("visits");
 
-if(!count){
+if(!visits){
 
-count=1;
+visits=1;
 
 }else{
 
-count=parseInt(count)+1;
+visits=parseInt(visits)+1;
 
 }
 
-localStorage.setItem("visitcount",count);
+localStorage.setItem("visits",visits);
 
-document.getElementById("visitors").innerText=count;
+document.getElementById("visits").innerText=visits;
 
 </script>
+
+</body>
+
+</html>
