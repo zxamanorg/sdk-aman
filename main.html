@@ -1,233 +1,63 @@
-<!DOCTYPE html>
-<html>
+<!-- RIGHT SIDE ANALYTICS PANEL -->
 
-<head>
+<div id="analytics">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div>🌍 Country: <span id="country">Loading...</span></div>
 
-<title>AMAN</title>
+<div>📍 City: <span id="city">Loading...</span></div>
 
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<div>📡 IP: <span id="ip">Loading...</span></div>
+
+<div>📊 Visitors: <span id="visitors">Loading...</span></div>
+
+</div>
 
 <style>
 
-body{
-margin:0;
-background:black;
-color:white;
-font-family:'Share Tech Mono', monospace;
-overflow:hidden;
-}
-
-/* ping */
-
-#ping{
+#analytics{
 position:absolute;
 top:10px;
-left:10px;
-font-size:20px;
-}
-
-/* glitch intro */
-
-#intro{
-position:fixed;
-width:100%;
-height:100%;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:10;
-}
-
-.glitch{
-font-size:70px;
-color:white;
-position:relative;
-animation:glitch 1s infinite;
-}
-
-@keyframes glitch{
-
-0%{text-shadow:2px 2px red;}
-25%{text-shadow:-2px -2px cyan;}
-50%{text-shadow:2px -2px red;}
-75%{text-shadow:-2px 2px cyan;}
-100%{text-shadow:2px 2px red;}
-
-}
-
-/* main content */
-
-#main{
-display:none;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-text-align:center;
-}
-
-/* welcome animation */
-
-.welcome{
-
-font-size:70px;
-color:cyan;
-text-shadow:
-0 0 20px cyan,
-0 0 40px cyan;
-
-opacity:0;
-
-}
-
-/* logo */
-
-.logo{
-
-font-size:90px;
-color:white;
-
-text-shadow:
-0 0 20px white,
-0 0 40px cyan;
-
-opacity:0;
-
-}
-
-/* info */
-
-.info{
-
-font-size:24px;
-margin-top:10px;
-opacity:0;
-
+right:10px;
+padding:12px;
+font-size:14px;
+background:rgba(0,0,0,0.7);
+border-left:2px solid cyan;
+border-top:2px solid cyan;
+line-height:22px;
 }
 
 </style>
 
-</head>
-
-<body>
-
-<div id="ping">
-Ping: <span id="pingvalue">...</span> ms
-</div>
-
-<!-- intro glitch -->
-
-<div id="intro">
-
-<div class="glitch">
-SYSTEM HACKING...
-</div>
-
-<p>Loading Aman Interface</p>
-
-</div>
-
-<!-- main -->
-
-<div id="main">
-
-<div class="welcome" id="w">
-WELCOME VIEWER
-</div>
-
-<div class="logo" id="a">
-AMAN
-</div>
-
-<div class="info" id="i1">
-Age = 15 (soon)
-</div>
-
-<div class="info" id="i2">
-Class = IX
-</div>
-
-<div class="info" id="i3">
-Complete = C#, C++, JAVA
-</div>
-
-<div class="info" id="i4">
-Pending = PYTHON
-</div>
-
-</div>
-
 <script>
 
-/* ping */
+/* IP + location */
 
-function ping(){
+fetch("https://ipapi.co/json/")
+.then(res=>res.json())
+.then(data=>{
 
-let start=Date.now();
-
-fetch(window.location.href,{method:"HEAD"}).then(()=>{
-
-let p=Date.now()-start;
-
-document.getElementById("pingvalue").innerText=p;
+document.getElementById("country").innerText=data.country_name;
+document.getElementById("city").innerText=data.city;
+document.getElementById("ip").innerText=data.ip;
 
 });
 
-}
+/* simple visitor counter */
 
-setInterval(ping,2000);
+let count=localStorage.getItem("visitcount");
 
-ping();
+if(!count){
 
-/* intro loading */
+count=1;
 
-setTimeout(()=>{
+}else{
 
-document.getElementById("intro").style.display="none";
-
-document.getElementById("main").style.display="flex";
-
-loadItems();
-
-},3000);
-
-
-/* sequential load */
-
-function show(id,delay){
-
-setTimeout(()=>{
-
-document.getElementById(id).style.opacity="1";
-
-},delay);
+count=parseInt(count)+1;
 
 }
 
-function loadItems(){
+localStorage.setItem("visitcount",count);
 
-show("w",500);
-
-show("a",1200);
-
-show("i1",2000);
-
-show("i2",2600);
-
-show("i3",3200);
-
-show("i4",3800);
-
-}
+document.getElementById("visitors").innerText=count;
 
 </script>
-
-</body>
-
-</html>
