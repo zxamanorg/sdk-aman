@@ -8,18 +8,15 @@
 
 <title>AMAN</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
 <style>
 
 body{
 margin:0;
 background:black;
 color:white;
-font-family:Arial;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-text-align:center;
+font-family:'Share Tech Mono', monospace;
 overflow:hidden;
 }
 
@@ -29,32 +26,89 @@ overflow:hidden;
 position:absolute;
 top:10px;
 left:10px;
-font-size:18px;
+font-size:20px;
+}
+
+/* glitch intro */
+
+#intro{
+position:fixed;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:10;
+}
+
+.glitch{
+font-size:70px;
+color:white;
+position:relative;
+animation:glitch 1s infinite;
+}
+
+@keyframes glitch{
+
+0%{text-shadow:2px 2px red;}
+25%{text-shadow:-2px -2px cyan;}
+50%{text-shadow:2px -2px red;}
+75%{text-shadow:-2px 2px cyan;}
+100%{text-shadow:2px 2px red;}
+
+}
+
+/* main content */
+
+#main{
+display:none;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+}
+
+/* welcome animation */
+
+.welcome{
+
+font-size:70px;
+color:cyan;
+text-shadow:
+0 0 20px cyan,
+0 0 40px cyan;
+
+opacity:0;
+
 }
 
 /* logo */
 
 .logo{
+
 font-size:90px;
-color:cyan;
+color:white;
 
 text-shadow:
-0 0 20px cyan,
+0 0 20px white,
 0 0 40px cyan;
 
-animation:spin 8s linear infinite;
-}
+opacity:0;
 
-@keyframes spin{
-0%{transform:rotateY(0deg)}
-100%{transform:rotateY(360deg)}
 }
 
 /* info */
 
 .info{
-font-size:22px;
-margin-top:15px;
+
+font-size:24px;
+margin-top:10px;
+opacity:0;
+
 }
 
 </style>
@@ -67,25 +121,43 @@ margin-top:15px;
 Ping: <span id="pingvalue">...</span> ms
 </div>
 
-<div>
+<!-- intro glitch -->
 
-<div class="logo">
+<div id="intro">
+
+<div class="glitch">
+SYSTEM HACKING...
+</div>
+
+<p>Loading Aman Interface</p>
+
+</div>
+
+<!-- main -->
+
+<div id="main">
+
+<div class="welcome" id="w">
 WELCOME VIEWER
 </div>
 
-<div class="info">
+<div class="logo" id="a">
+AMAN
+</div>
+
+<div class="info" id="i1">
 Age = 15 (soon)
 </div>
 
-<div class="info">
+<div class="info" id="i2">
 Class = IX
 </div>
 
-<div class="info">
+<div class="info" id="i3">
 Complete = C#, C++, JAVA
 </div>
 
-<div class="info">
+<div class="info" id="i4">
 Pending = PYTHON
 </div>
 
@@ -112,6 +184,47 @@ document.getElementById("pingvalue").innerText=p;
 setInterval(ping,2000);
 
 ping();
+
+/* intro loading */
+
+setTimeout(()=>{
+
+document.getElementById("intro").style.display="none";
+
+document.getElementById("main").style.display="flex";
+
+loadItems();
+
+},3000);
+
+
+/* sequential load */
+
+function show(id,delay){
+
+setTimeout(()=>{
+
+document.getElementById(id).style.opacity="1";
+
+},delay);
+
+}
+
+function loadItems(){
+
+show("w",500);
+
+show("a",1200);
+
+show("i1",2000);
+
+show("i2",2600);
+
+show("i3",3200);
+
+show("i4",3800);
+
+}
 
 </script>
 
