@@ -1,26 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>AMAN SYSTEM</title>
 
 <style>
 
 body{
 margin:0;
-font-family:monospace;
 background:black;
+font-family:monospace;
 color:#00ffff;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
-text-align:center;
 overflow:hidden;
+text-align:center;
 }
-
-/* particles background */
 
 #particles-js{
 position:fixed;
@@ -29,46 +28,46 @@ height:100%;
 z-index:-1;
 }
 
-/* loading box */
+/* ping */
+
+.ping{
+position:absolute;
+top:10px;
+left:10px;
+font-size:14px;
+color:white;
+}
+
+/* box */
 
 .box{
-padding:40px;
 background:rgba(0,0,0,0.7);
+padding:40px;
 border:1px solid cyan;
 box-shadow:0 0 20px cyan;
 }
 
-/* typing animation */
-
 .loading{
-font-size:32px;
-border-right:3px solid cyan;
-white-space:nowrap;
-overflow:hidden;
-width:0;
-animation:typing 4s steps(22,end) forwards, blink .8s infinite;
+font-size:28px;
+margin-bottom:20px;
 }
 
-@keyframes typing{
-from{width:0}
-to{width:22ch}
-}
-
-@keyframes blink{
-50%{border-color:transparent}
-}
-
-.dev{
-margin-top:20px;
+button{
+padding:12px 25px;
 font-size:18px;
-color:white;
+background:cyan;
+border:none;
+cursor:pointer;
 }
 
 </style>
-
 </head>
 
 <body>
+
+<div class="ping">
+Ping: <span id="ping">...</span> ms
+</div>
 
 <div id="particles-js"></div>
 
@@ -78,9 +77,9 @@ color:white;
 SYSTEM REBOOT LOADING...
 </div>
 
-<div class="dev">
-Developer = AMAN
-</div>
+<br>
+
+<button onclick="go()">CLICK HERE TO GO!</button>
 
 </div>
 
@@ -88,7 +87,7 @@ Developer = AMAN
 
 <script>
 
-/* galaxy particles */
+/* particles */
 
 particlesJS("particles-js",{
 particles:{
@@ -98,6 +97,27 @@ move:{speed:2},
 line_linked:{enable:true}
 }
 });
+
+/* fake ping test */
+
+function updatePing(){
+let start=Date.now();
+
+fetch(window.location.href,{method:"HEAD"})
+.then(()=>{
+let ping=Date.now()-start;
+document.getElementById("ping").innerText=ping;
+});
+}
+
+setInterval(updatePing,2000);
+updatePing();
+
+/* go page */
+
+function go(){
+window.location.href="main.html";
+}
 
 </script>
 
