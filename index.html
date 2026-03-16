@@ -6,130 +6,195 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AMAN</title>
+<title>AMAN SYSTEM</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 
 <style>
 
 body{
-
 margin:0;
-
 background:black;
-
 color:#00ffff;
-
 font-family:'Orbitron',sans-serif;
-
 display:flex;
-
 justify-content:center;
-
 align-items:center;
-
 height:100vh;
-
-overflow:hidden;
-
 text-align:center;
-
+overflow:hidden;
 }
 
 /* particles */
 
 #particles-js{
-
 position:fixed;
-
 width:100%;
-
 height:100%;
-
 z-index:-1;
-
 }
 
 /* ping */
 
 #ping{
-
 position:absolute;
-
 top:10px;
-
 left:10px;
-
 color:white;
-
 font-size:14px;
-
 }
 
 /* terminal */
 
 #terminal{
-
 font-family:monospace;
-
 white-space:pre;
-
 font-size:18px;
-
 }
 
 /* button */
 
 button{
-
 margin-top:20px;
-
 padding:14px 30px;
-
 font-size:18px;
-
-background:#00ffff;
-
+background:cyan;
 border:none;
-
 cursor:pointer;
+}
+
+/* warp effect */
+
+.warp{
+position:fixed;
+width:100%;
+height:100%;
+background:black;
+animation:warp 1s forwards;
+}
+
+@keyframes warp{
+0%{transform:scale(1)}
+100%{transform:scale(20)}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="particles-js"></div>
+
+<div id="ping">
+Ping: <span id="pingvalue">...</span> ms
+</div>
+
+<div id="terminal"></div>
+
+<div id="btn" style="display:none">
+<button onclick="warp()">CLICK HERE TO GO!</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<script>
+
+/* particles */
+
+particlesJS("particles-js",{
+particles:{
+number:{value:100},
+size:{value:3},
+move:{speed:1},
+line_linked:{enable:true}
+}
+});
+
+/* hacker terminal */
+
+const text=[
+"Booting Aman System...",
+"Connecting Secure Network...",
+"Decrypting Servers...",
+"Access Granted.",
+"",
+"Welcome Developer AMAN"
+];
+
+let i=0;
+let j=0;
+
+function type(){
+
+if(i<text.length){
+
+if(j<text[i].length){
+
+document.getElementById("terminal").innerHTML+=text[i][j];
+
+j++;
+
+setTimeout(type,40);
+
+}else{
+
+document.getElementById("terminal").innerHTML+="\n";
+
+i++;
+
+j=0;
+
+setTimeout(type,400);
 
 }
 
-/* main page */
+}else{
 
-#main{
-
-display:none;
-
-flex-direction:column;
+document.getElementById("btn").style.display="block";
 
 }
 
-/* 3D logo */
+}
 
-.logo{
+type();
 
-font-size:100px;
+/* warp transition */
 
-color:cyan;
+function warp(){
 
-text-shadow:
+document.body.innerHTML+="<div class='warp'></div>";
 
-0 0 10px cyan,
+setTimeout(()=>{
 
-0 0 30px cyan,
+window.location="main.html"
 
-0 0 60px cyan,
-
-0 0 100px cyan;
-
-animation:spin 8s linear infinite;
+},900)
 
 }
 
-@keyframes spin{
+/* ping */
 
-0%{
+function ping(){
 
-transform
+let start=Date.now();
+
+fetch(window.location.href,{method:"HEAD"}).then(()=>{
+
+let p=Date.now()-start;
+
+document.getElementById("pingvalue").innerText=p;
+
+});
+
+}
+
+setInterval(ping,2000);
+
+ping();
+
+</script>
+
+</body>
+
+</html>
