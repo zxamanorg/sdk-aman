@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HDX Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    background:black;
+    color:#00ffff;
+    font-family:'Orbitron', sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* PARTICLES */
+#particles{
+    position:fixed;
+    width:100%;
+    height:100%;
+    z-index:-1;
+}
+
+/* LOGIN BOX */
+.container{
+    border:2px solid #00ffff;
+    width:90%;
+    max-width:380px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 0 25px #00ffff;
+    position:relative;
+}
+
+/* TOP INFO */
+.top{
+    position:absolute;
+    left:10px;
+    top:10px;
+    font-size:12px;
+}
+
+/* SIGNUP */
+.signup{
+    position:absolute;
+    right:10px;
+    top:10px;
+    cursor:pointer;
+    font-size:12px;
+}
+
+/* INPUT */
+input{
+    width:90%;
+    padding:10px;
+    margin:12px 0;
+    background:black;
+    border:1px solid #00ffff;
+    color:#00ffff;
+}
+
+/* BUTTON */
+button{
+    padding:10px 25px;
+    background:black;
+    border:1px solid #00ffff;
+    color:#00ffff;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#00ffff;
+    color:black;
+}
+
+/* ✅ SAFE TRANSITION */
+.transition{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:black;
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:0.4s;
+    pointer-events:none;
+    z-index:9999;
+}
+
+.transition.active{
+    transform:scaleX(1);
+}
+
+/* ERROR */
+.error{
+    color:red;
+    font-size:12px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+<div class="transition" id="transition"></div>
+
+<div class="container">
+
+    <div class="top">
+        FPS: <span id="fps">0</span><br>
+        Ping: <span id="ping">--</span>
+    </div>
+
+    <div class="signup" onclick="alert('Coming Soon 🚀')">Sign Up</div>
+
+    <h2>HDX LOGIN</h2>
+
+    <input type="text" id="user" placeholder="Username">
+    <input type="password" id="pass" placeholder="Password">
+
+    <button onclick="login()">➡</button>
+
+    <div class="error" id="error"></div>
+
+</div>
+
+<script>
+
+// SAFE LOAD
+window.onload = ()=>{
+    document.getElementById("transition").classList.remove("active");
+};
+
+// LOGIN
+function login(){
+    let u = document.getElementById("user").value;
+    let p = document.getElementById("pass").value;
+
+    if(u === "HDX" && p === "788"){
+        let t = document.getElementById("transition");
+        t.classList.add("active");
+
+        setTimeout(()=>{
+            window.location.href = "home.html";
+        },400);
+    }else{
+        document.getElementById("error").innerText = "Wrong ID ❌";
+    }
+}
+
+// PING
+setInterval(()=>{
+    document.getElementById("ping").innerText = Math.floor(Math.random()*80+20)+" ms";
+},1000);
+
+// FPS
+let last = performance.now();
+function fps(){
+    let now = performance.now();
+    let value = Math.round(1000/(now-last));
+    last = now;
+    if(value>360) value=360;
+    document.getElementById("fps").innerText = value;
+    requestAnimationFrame(fps);
+}
+fps();
+
+// PARTICLES
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<60;i++){
+    particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        size:Math.random()*2,
+        dx:(Math.random()-0.5),
+        dy:(Math.random()-0.5)
+    });
+}
+
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="#00ffff";
+
+    particles.forEach(p=>{
+        p.x+=p.dx;
+        p.y+=p.dy;
+
+        if(p.x<0||p.x>canvas.width) p.dx*=-1;
+        if(p.y<0||p.y>canvas.height) p.dy*=-1;
+
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+        ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+}
+draw();
+
+window.addEventListener("resize",()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
