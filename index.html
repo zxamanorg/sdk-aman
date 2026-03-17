@@ -1,176 +1,85 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>AMAN INFO </title>
+<title>HDX Panel</title>
 
 <style>
-
 body{
-margin:0;
-background:black;
-color:#00ffff;
-font-family:monospace;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-text-align:center;
-overflow:hidden;
+    margin:0;
+    background:black;
+    color:#00ffff;
+    font-family:Arial;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
 }
 
-/* ping */
-
-#ping{
-position:absolute;
-top:10px;
-left:10px;
-font-size:18px;
-color:white;
+.container{
+    border:2px solid #00ffff;
+    width:90%;
+    max-width:500px;
+    padding:20px;
+    box-shadow:0 0 20px #00ffff;
+    text-align:center;
 }
 
-/* terminal */
-
-#terminal{
-position:absolute;
-top:30%;
-white-space:pre;
-font-size:20px;
+/* Animation overlay */
+.transition{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#00ffff;
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:0.5s;
 }
 
-/* button */
-
-#btn{
-margin-top:120px;
+.transition.active{
+    transform:scaleX(1);
 }
 
 button{
-padding:14px 30px;
-font-size:18px;
-background:cyan;
-border:none;
-cursor:pointer;
+    margin-top:30px;
+    background:black;
+    border:1px solid #00ffff;
+    color:#00ffff;
+    padding:12px 25px;
+    cursor:pointer;
+    font-size:18px;
 }
 
-/* slide */
-
-.slide{
-position:fixed;
-width:100%;
-height:100%;
-background:black;
-animation:slide 1s forwards;
+button:hover{
+    background:#00ffff;
+    color:black;
 }
-
-@keyframes slide{
-0%{transform:translateX(0)}
-100%{transform:translateX(-100%)}
-}
-
 </style>
-
 </head>
 
 <body>
 
-<div id="ping">
-Ping: <span id="pingvalue">...</span> ms
-</div>
+<div class="transition" id="transition"></div>
 
-<div id="terminal"></div>
-
-<div id="btn" style="display:none">
-<button onclick="go()">CLICK HERE TO GO!</button>
+<div class="container">
+    <h1>WELCOME TO H.D.X</h1>
+    <button onclick="goNext()">➡</button>
 </div>
 
 <script>
+function goNext(){
+    let t = document.getElementById("transition");
+    t.classList.add("active");
 
-/* hacker intro */
-
-const text=[
-"Booting Aman System...",
-"Connecting Network...",
-"Decrypting Servers...",
-"Access Granted!."
-];
-
-let i=0;
-let j=0;
-
-function type(){
-
-if(i<text.length){
-
-if(j<text[i].length){
-
-document.getElementById("terminal").innerHTML+=text[i][j];
-
-j++;
-
-setTimeout(type,40);
-
-}else{
-
-document.getElementById("terminal").innerHTML+="\n";
-
-i++;
-
-j=0;
-
-setTimeout(type,400);
-
+    setTimeout(()=>{
+        window.location.href = "page2.html";
+    },500);
 }
-
-}else{
-
-document.getElementById("btn").style.display="block";
-
-}
-
-}
-
-type();
-
-/* slide */
-
-function go(){
-
-document.body.innerHTML+="<div class='slide'></div>";
-
-setTimeout(()=>{
-
-window.location="main.html"
-
-},900)
-
-}
-
-/* ping */
-
-function ping(){
-
-let start=Date.now();
-
-fetch(window.location.href,{method:"HEAD"}).then(()=>{
-
-let p=Date.now()-start;
-
-document.getElementById("pingvalue").innerText=p;
-
-});
-
-}
-
-setInterval(ping,2000);
-
-ping();
-
 </script>
 
 </body>
-
 </html>
