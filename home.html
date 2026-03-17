@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HDX Panel</title>
 
-<!-- Font -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -25,7 +24,7 @@ body{
     overflow:hidden;
 }
 
-/* Canvas background */
+/* Canvas */
 #particles{
     position:fixed;
     top:0;
@@ -47,13 +46,11 @@ body{
     animation:fadeIn 0.8s ease forwards;
 }
 
-/* Animation */
 @keyframes fadeIn{
     from{opacity:0; transform:scale(0.9);}
     to{opacity:1; transform:scale(1);}
 }
 
-/* Top bar */
 .top{
     display:flex;
     justify-content:space-between;
@@ -61,7 +58,6 @@ body{
     margin-bottom:10px;
 }
 
-/* Button */
 button{
     margin-top:30px;
     background:black;
@@ -79,17 +75,19 @@ button:hover{
     transform:scale(1.1);
 }
 
-/* Transition */
+/* ✅ FIXED TRANSITION */
 .transition{
     position:fixed;
     top:0;
     left:0;
     width:100%;
     height:100%;
-    background:#00ffff;
+    background:black; /* cyan hata diya */
     transform:scaleX(0);
     transform-origin:left;
     transition:0.5s;
+    pointer-events:none;
+    z-index:9999;
 }
 
 .transition.active{
@@ -118,30 +116,37 @@ button:hover{
 </div>
 
 <script>
-// 🎯 Smooth Click Sound
+
+// ✅ PAGE LOAD FIX
+window.onload = ()=>{
+    document.getElementById("transition").classList.remove("active");
+};
+
+// 🎯 Click Sound
 function clickSound(){
     let audio = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
     audio.volume = 0.2;
     audio.play();
 }
 
-// 🚀 Page Transition
+// 🚀 FIXED TRANSITION
 function goNext(){
     clickSound();
     let t = document.getElementById("transition");
     t.classList.add("active");
 
     setTimeout(()=>{
-        window.location.href = "page2.html";
+        window.location.href = "page2.html"; // ⚠️ check file name
+        t.classList.remove("active"); // 🔥 MAIN FIX
     },500);
 }
 
-// 📡 Fake Ping
+// 📡 Ping
 setInterval(()=>{
     document.getElementById("ping").innerText = Math.floor(Math.random()*80+20)+" ms";
 },1000);
 
-// ⚡ FPS Counter
+// ⚡ FPS
 let fps = 0;
 let lastTime = performance.now();
 
@@ -158,7 +163,7 @@ function updateFPS(){
 }
 updateFPS();
 
-// 🌌 PARTICLES BACKGROUND
+// 🌌 PARTICLES
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
 
@@ -199,7 +204,6 @@ function animateParticles(){
 
 animateParticles();
 
-// Resize fix
 window.addEventListener("resize",()=>{
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
