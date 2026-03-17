@@ -5,12 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HDX Panel</title>
 
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
+html{
+    scroll-behavior:smooth;
+}
+
 body{
     margin:0;
     background:black;
     color:#00ffff;
-    font-family:Arial;
+    font-family:'Orbitron', sans-serif;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -18,16 +25,61 @@ body{
     overflow:hidden;
 }
 
+/* Canvas background */
+#particles{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+}
+
+/* Container */
 .container{
     border:2px solid #00ffff;
     width:90%;
     max-width:500px;
     padding:20px;
-    box-shadow:0 0 20px #00ffff;
+    box-shadow:0 0 25px #00ffff;
     text-align:center;
+    backdrop-filter: blur(5px);
+    animation:fadeIn 0.8s ease forwards;
 }
 
-/* Animation overlay */
+/* Animation */
+@keyframes fadeIn{
+    from{opacity:0; transform:scale(0.9);}
+    to{opacity:1; transform:scale(1);}
+}
+
+/* Top bar */
+.top{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+/* Button */
+button{
+    margin-top:30px;
+    background:black;
+    border:1px solid #00ffff;
+    color:#00ffff;
+    padding:12px 25px;
+    cursor:pointer;
+    font-size:18px;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#00ffff;
+    color:black;
+    transform:scale(1.1);
+}
+
+/* Transition */
 .transition{
     position:fixed;
     top:0;
@@ -43,35 +95,39 @@ body{
 .transition.active{
     transform:scaleX(1);
 }
-
-button{
-    margin-top:30px;
-    background:black;
-    border:1px solid #00ffff;
-    color:#00ffff;
-    padding:12px 25px;
-    cursor:pointer;
-    font-size:18px;
-}
-
-button:hover{
-    background:#00ffff;
-    color:black;
-}
 </style>
 </head>
 
 <body>
 
+<canvas id="particles"></canvas>
+
 <div class="transition" id="transition"></div>
 
 <div class="container">
+
+    <div class="top">
+        <div>📡 Ping: <span id="ping">--</span></div>
+        <div>⚡ FPS: <span id="fps">0</span>/360</div>
+    </div>
+
     <h1>WELCOME TO H.D.X</h1>
+
     <button onclick="goNext()">➡</button>
+
 </div>
 
 <script>
+// 🎯 Smooth Click Sound
+function clickSound(){
+    let audio = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
+    audio.volume = 0.2;
+    audio.play();
+}
+
+// 🚀 Page Transition
 function goNext(){
+    clickSound();
     let t = document.getElementById("transition");
     t.classList.add("active");
 
@@ -79,6 +135,75 @@ function goNext(){
         window.location.href = "page2.html";
     },500);
 }
+
+// 📡 Fake Ping
+setInterval(()=>{
+    document.getElementById("ping").innerText = Math.floor(Math.random()*80+20)+" ms";
+},1000);
+
+// ⚡ FPS Counter
+let fps = 0;
+let lastTime = performance.now();
+
+function updateFPS(){
+    let now = performance.now();
+    fps = Math.round(1000 / (now - lastTime));
+    lastTime = now;
+
+    if(fps > 360) fps = 360;
+
+    document.getElementById("fps").innerText = fps;
+
+    requestAnimationFrame(updateFPS);
+}
+updateFPS();
+
+// 🌌 PARTICLES BACKGROUND
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<80;i++){
+    particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        size:Math.random()*2,
+        speedX:(Math.random()-0.5),
+        speedY:(Math.random()-0.5)
+    });
+}
+
+function animateParticles(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle="#00ffff";
+
+    particles.forEach(p=>{
+        p.x += p.speedX;
+        p.y += p.speedY;
+
+        if(p.x<0||p.x>canvas.width) p.speedX*=-1;
+        if(p.y<0||p.y>canvas.height) p.speedY*=-1;
+
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+        ctx.fill();
+    });
+
+    requestAnimationFrame(animateParticles);
+}
+
+animateParticles();
+
+// Resize fix
+window.addEventListener("resize",()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
 </script>
 
 </body>
