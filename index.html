@@ -82,15 +82,19 @@ button:hover{
     transform:scale(1.1);
 }
 
-/* TRANSITION */
+/* ✅ FIXED TRANSITION */
 .transition{
     position:fixed;
+    top:0;
+    left:0;
     width:100%;
     height:100%;
-    background:#00ffff;
+    background:black; /* cyan hata diya */
     transform:scaleX(0);
     transform-origin:left;
     transition:0.5s;
+    pointer-events:none;
+    z-index:9999;
 }
 
 .transition.active{
@@ -105,6 +109,129 @@ button:hover{
 </style>
 </head>
 
+<body>
+
+<canvas id="particles"></canvas>
+<div class="transition" id="transition"></div>
+
+<div class="container">
+
+    <!-- TOP -->
+    <div class="top">
+        FPS: <span id="fps">0</span><br>
+        Ping: <span id="ping">--</span>
+    </div>
+
+    <!-- SIGNUP -->
+    <div class="signup" onclick="comingSoon()">Sign Up</div>
+
+    <h2>HDX LOGIN</h2>
+
+    <input type="text" id="user" placeholder="Username">
+    <input type="password" id="pass" placeholder="Password">
+
+    <button onclick="login()">➡</button>
+
+    <div class="error" id="error"></div>
+
+</div>
+
+<script>
+
+// ✅ PAGE LOAD FIX
+window.onload = ()=>{
+    document.getElementById("transition").classList.remove("active");
+};
+
+// LOGIN
+function login(){
+    let u = document.getElementById("user").value;
+    let p = document.getElementById("pass").value;
+
+    if(u === "HDX" && p === "788"){
+        let t = document.getElementById("transition");
+        t.classList.add("active");
+
+        setTimeout(()=>{
+            window.location.href = "home.html"; // ⚠️ check name
+            t.classList.remove("active"); // 🔥 FIX
+        },500);
+    }else{
+        document.getElementById("error").innerText = "Wrong ID ❌";
+    }
+}
+
+// SIGNUP
+function comingSoon(){
+    alert("Coming Soon 🚀");
+}
+
+// PING
+setInterval(()=>{
+    document.getElementById("ping").innerText = Math.floor(Math.random()*80+20)+" ms";
+},1000);
+
+// FPS
+let last = performance.now();
+function fpsCounter(){
+    let now = performance.now();
+    let fps = Math.round(1000/(now-last));
+    last = now;
+
+    if(fps > 360) fps = 360;
+    document.getElementById("fps").innerText = fps;
+
+    requestAnimationFrame(fpsCounter);
+}
+fpsCounter();
+
+// PARTICLES
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<70;i++){
+    particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        size:Math.random()*2,
+        speedX:(Math.random()-0.5),
+        speedY:(Math.random()-0.5)
+    });
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="#00ffff";
+
+    particles.forEach(p=>{
+        p.x += p.speedX;
+        p.y += p.speedY;
+
+        if(p.x<0||p.x>canvas.width) p.speedX*=-1;
+        if(p.y<0||p.y>canvas.height) p.speedY*=-1;
+
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+        ctx.fill();
+    });
+
+    requestAnimationFrame(animate);
+}
+animate();
+
+window.addEventListener("resize",()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
 <body>
 
 <canvas id="particles"></canvas>
