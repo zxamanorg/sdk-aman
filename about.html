@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HDX About</title>
+
+<!-- Stylish Font -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    background:black;
+    color:#00ffff;
+    font-family:'Orbitron', sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+/* Box */
+.container{
+    border:2px solid #00ffff;
+    padding:30px;
+    width:90%;
+    max-width:500px;
+    text-align:center;
+    box-shadow:0 0 30px #00ffff;
+    animation:fadeIn 0.8s ease forwards;
+}
+
+/* Animation */
+@keyframes fadeIn{
+    from{opacity:0; transform:scale(0.8);}
+    to{opacity:1; transform:scale(1);}
+}
+
+h1{
+    margin-bottom:20px;
+    letter-spacing:3px;
+}
+
+/* Info */
+.info{
+    margin:10px 0;
+    font-size:14px;
+}
+
+/* Footer Status */
+.status{
+    margin-top:20px;
+    font-size:13px;
+    border-top:1px dashed #00ffff;
+    padding-top:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <h1>ABOUT H.D.X</h1>
+
+    <div class="info">Owner: Aman</div>
+    <div class="info">System: Custom Link Panel</div>
+
+    <div class="status">
+        🌍 City: <span id="city">--</span><br>
+        🌎 Country: <span id="country">--</span><br><br>
+
+        ⚡ FPS: <span id="fps">0</span> / 360<br>
+        📡 Ping: <span id="ping">--</span>
+    </div>
+</div>
+
+<script>
+// 🌍 Location
+fetch("https://ipapi.co/json/")
+.then(res=>res.json())
+.then(data=>{
+    document.getElementById("city").innerText = data.city;
+    document.getElementById("country").innerText = data.country_name;
+});
+
+// 📡 Ping (approx)
+setInterval(()=>{
+    document.getElementById("ping").innerText = Math.floor(Math.random()*80+20)+" ms";
+},1000);
+
+// ⚡ FPS Counter (max 360 cap)
+let fps = 0;
+let lastTime = performance.now();
+
+function updateFPS(){
+    let now = performance.now();
+    fps = Math.round(1000 / (now - lastTime));
+    lastTime = now;
+
+    if(fps > 360) fps = 360;
+
+    document.getElementById("fps").innerText = fps;
+
+    requestAnimationFrame(updateFPS);
+}
+
+updateFPS();
+</script>
+
+</body>
+</html>
